@@ -108,6 +108,7 @@ Commercial and mission-critical implementations require a contract.
 
 ---
 
-*Crafted with cybernetic artisanship at Sitio Eriazo, Valparaíso, Chile.*
-
-                         ⟦ VSF ✸ 2026 ⟧
+<p align="center">
+<em>Crafted with cybernetic artisanship at Sitio Eriazo, Valparaíso, Chile.</em><br>
+⟦ VSF ✸ 2026 ⟧
+</p>
