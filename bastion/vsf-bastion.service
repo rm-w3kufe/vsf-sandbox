@@ -1,0 +1,14 @@
+[Unit]
+Description=VSF Bastion API
+After=network.target
+
+[Service]
+User=vsf
+WorkingDirectory=/opt/vsf-bastion
+ExecStart=/opt/vsf-bastion/venv/bin/uvicorn api:app --host 0.0.0.0 --port 8333
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
