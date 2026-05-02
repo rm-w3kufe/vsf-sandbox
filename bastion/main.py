@@ -323,7 +323,7 @@ def monitor_page(t: str = ""):
     SEP  = _SEP
     sep2 = _sep
     ts_line = f"  {now}"
-    lbl     = "[auto-refresh: 30s]"
+    lbl     = "[auto‑refresh: 30s]"
     header  = ts_line + " " * (_W - len(ts_line) - len(lbl)) + lbl
 
     body = "\n".join([
