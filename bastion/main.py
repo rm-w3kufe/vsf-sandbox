@@ -123,7 +123,7 @@ _CSS = """
     color: #111111;
     font-family: "Courier New", Courier, monospace;
     font-size: 14px;
-    line-height: 1.7;
+    line-height: 1.2;
     padding: 3rem 4rem;
     max-width: 93ch;
   }
@@ -322,7 +322,9 @@ def monitor_page(t: str = ""):
 
     SEP  = _SEP
     sep2 = _sep
-    header  = f"  {now}     [auto‑refresh: 30s]"
+    _ts  = f"  {now}"
+    _lbl = "[auto‑refresh: 30s]"
+    header = _ts + " " * (_W - len(_ts) - len(_lbl)) + _lbl
 
     body = "\n".join([
         SEP,
@@ -349,12 +351,12 @@ def monitor_page(t: str = ""):
         ver_str,
         "",
         sep2,
-        "  RECENT THREATS                                              [last 10]",
+        "  RECENT THREATS" + " " * (_W - 16 - 9) + "[last 10]",
         "",
         threat_rows.rstrip(),
         "",
         sep2,
-        "  ⟦ VSF ✸ 2026 ⟧                                          INTERNAL USE ONLY",
+        "  ⟦ VSF ✸ 2026 ⟧" + " " * (_W - 16 - 17) + "INTERNAL USE ONLY",
         SEP,
     ])
 
