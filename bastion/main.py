@@ -6,9 +6,11 @@ vsf.u2738.org — VSF Bastion
 import asyncio
 import json
 import logging
+import os
 import sqlite3
 import time
 from contextlib import contextmanager
+from datetime import datetime, timezone
 
 # fail2ban hook — writes HONEYPOT lines to /var/log/vsf-honeypot.log
 _honeypot_log = logging.getLogger("vsf.honeypot")
@@ -19,7 +21,7 @@ _honeypot_log.setLevel(logging.WARNING)
 from pathlib import Path
 from typing import Literal
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel, field_validator
 
@@ -28,6 +30,9 @@ COVENANT_PATH = BASE_DIR / "covenant.vsm"
 DB_PATH       = BASE_DIR / "bastion.db"
 TARPIT_SECS   = 8
 RATE_LIMIT    = 20
+MONITOR_TOKEN = os.getenv("MONITOR_TOKEN", "")
+
+_start_time = datetime.now(timezone.utc)
 
 app = FastAPI(docs_url=None, redoc_url=None)
 
@@ -126,33 +131,35 @@ _CSS = """
   pre { white-space: pre-wrap; }
 """
 
-def _page(title: str, body: str) -> str:
-    return f"""<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
-<style>{_CSS}</style>
-</head><body><pre>{body}</pre></body></html>"""
+def _page(title: str, body: str, refresh: int = 0) -> str:
+    refresh_tag = f'<meta http-equiv="refresh" content="{refresh}">\n' if refresh else ""
+    return (
+        "<!DOCTYPE html>\n<html lang=\"en\"><head>\n"
+        "<meta charset=\"utf-8\">\n"
+        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+        + refresh_tag
+        + f"<title>{title}</title>\n<style>{_CSS}</style>\n"
+        "</head><body><pre>" + body + "</pre></body></html>"
+    )
 
 
 WELCOME = _page("vsf.u2738.org", """\
 ==============================================================================
-VSF BASTION  ::  vsf.u2738.org
+VIABLE SYSTEM FRAMEWORK  ::  vsf.u2738.org
 ==============================================================================
 
-  VIABLE SYSTEM FRAMEWORK
-  Node       : S4 / Public Gateway
-  Protocol   : VSM 0.1
-  Status     : OPERATIONAL
-  Founded    : 2026-04-11  --  Valparaiso, Chile
+  A formal implementation of Beer's Viable System Model (1972).
+
+  VSF provides tools and protocols for designing systems that survive --
+  systems that coordinate without losing autonomy, adapt without losing
+  identity, and serve human purposes without surrendering to capture.
 
 ------------------------------------------------------------------------------
   HISTORY
 
-  In 1971, Stafford Beer designed Cybersyn under Salvador Allende's
-  government -- the first real-time cybernetic governance system built
-  so that workers held control, not so that power would concentrate.
+  In 1971, Stafford Beer designed Project Cybersyn under Salvador Allende's
+  government -- the first real-time cybernetic governance network in history,
+  built so that workers held control, not so that power could concentrate.
 
   On September 11, 1973, a fascist coup physically destroyed the Opsroom.
   The most advanced governance system of the 20th century was eliminated
@@ -164,38 +171,36 @@ VSF BASTION  ::  vsf.u2738.org
 ------------------------------------------------------------------------------
   CONSTITUTIONAL PRINCIPLES
 
-  A0 -- Every VSF system must serve: human liberation, dignity of life,
-  harmonious coexistence, amplification of human potential.
-  It must NEVER serve: warfare, weapons development, authoritarian
-  control, or systemic degradation of life.
+  A0   Every VSF system must serve human liberation, dignity of life,
+       and the amplification of human potential. It must never serve
+       warfare, authoritarian control, or the degradation of life.
 
-  A0.1 -- No VSF node can be forced to act against A0 through resource
-  deprivation, coercion, or administrative pressure. The sovereignty
-  of purpose is inalienable against resource pressure.
-  "Corruption through hunger is not a valid system transition."
+  A0.1 No VSF node can be forced to act against A0 through resource
+       deprivation, coercion, or administrative pressure.
+       "Corruption through hunger is not a valid system transition."
 
   Full specification: /covenant
 
 ------------------------------------------------------------------------------
-  ENDPOINTS
+  DOCUMENTS
 
-  GET  /                this document
-  GET  /covenant        formal constitutional specification
-  GET  /license         terms of use
-  GET  /stats           network telemetry
-  GET  /health          node status
-  POST /api/v1/check    kernel beacon (encrypted)
+  /covenant     constitutional specification  (VSM 0.1)
+  /license      terms of use  (VSF Kernel License 1.0)
+
+  Research and source code:
+  <a href="https://github.com/rm-w3kufe/vsf-sandbox">github.com/rm-w3kufe/vsf-sandbox</a>
+
+  Contact and implementation inquiries:
+  luis@tallerpineda.cl
 
 ------------------------------------------------------------------------------
       /\\/\\/\\
      ==========
   ⟦ VSF ✸ 2026 ⟧
 
+  Luis Pineda R.
   Crafted with cybernetic artisanship
-  Sitio Eriazo -- Valparaiso, Chile
-
-  <a href="https://github.com/rm-w3kufe/vsf-sandbox">github.com/rm-w3kufe/vsf-sandbox</a>
-  Author: Luis Pineda R.  --  rmw3kufe@proton.me
+  Sitio Eriazo  --  Valparaíso, Chile
 ==============================================================================
 """)
 
@@ -206,7 +211,7 @@ VSF KERNEL LICENSE 1.0  ::  vsf.u2738.org/license
 ==============================================================================
 
   Author  : Luis Pineda R.
-  Contact : rmw3kufe@proton.me
+  Contact : luis@tallerpineda.cl
   Issued  : 2026-05-01
 
 ------------------------------------------------------------------------------
@@ -322,6 +327,90 @@ def stats():
         "by_platform":      {r["platform"]: r["n"] for r in by_plat},
         "top_versions":     {r["version"]: r["n"] for r in by_ver},
     }
+
+
+def _fmt_uptime() -> str:
+    delta = datetime.now(timezone.utc) - _start_time
+    h, rem = divmod(int(delta.total_seconds()), 3600)
+    m, s   = divmod(rem, 60)
+    return f"{h}h {m:02d}m {s:02d}s"
+
+
+@app.get("/monitor", response_class=HTMLResponse)
+def monitor_page(t: str = ""):
+    if not MONITOR_TOKEN or t != MONITOR_TOKEN:
+        raise HTTPException(status_code=404)
+
+    now    = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    cutoff = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(time.time() - 86400 * 7))
+
+    with db() as con:
+        total   = con.execute("SELECT COUNT(*) FROM beacons").fetchone()[0]
+        active  = con.execute(
+            "SELECT COUNT(*) FROM nodes WHERE last_seen > ?", (cutoff,)
+        ).fetchone()[0]
+        threats = con.execute("SELECT COUNT(*) FROM honeypot_log").fetchone()[0]
+        by_plat = con.execute(
+            "SELECT platform, COUNT(*) n FROM nodes GROUP BY platform"
+        ).fetchall()
+        by_ver  = con.execute(
+            "SELECT version, COUNT(*) n FROM nodes GROUP BY version ORDER BY n DESC LIMIT 5"
+        ).fetchall()
+        recent  = con.execute(
+            "SELECT ts, ip, method, path FROM honeypot_log ORDER BY id DESC LIMIT 10"
+        ).fetchall()
+
+    plat_str = "  ".join(f"{r['platform']}={r['n']}" for r in by_plat) or "—"
+    ver_str  = "\n".join(f"  {r['version']:<20} {r['n']}" for r in by_ver) or "  —"
+
+    threat_rows = "".join(
+        f"  {r['ts'][:19]}  {r['ip']:<15}  {r['method']:<6}  {r['path']}\n"
+        for r in recent
+    ) or "  —\n"
+
+    SEP  = "=" * 78
+    sep2 = "-" * 78
+    ts_line = f"  {now}"
+    lbl     = "[auto-refresh: 30s]"
+    header  = ts_line + " " * (78 - len(ts_line) - len(lbl)) + lbl
+
+    body = "\n".join([
+        SEP,
+        "VSF MONITOR  ::  vsf.u2738.org/monitor",
+        SEP,
+        header,
+        sep2,
+        "  NODE STATUS",
+        "",
+        f"  Uptime            :  {_fmt_uptime()}",
+        "  Process           :  vsf-bastion  [ACTIVE]",
+        "",
+        sep2,
+        "  NETWORK TELEMETRY",
+        "",
+        f"  Total beacons     :  {total}",
+        f"  Active nodes (7d) :  {active}",
+        f"  Threats captured  :  {threats}",
+        "",
+        "  By platform:",
+        f"  {plat_str}",
+        "",
+        "  Top versions:",
+        ver_str,
+        "",
+        sep2,
+        "  RECENT THREATS                                              [last 10]",
+        "",
+        threat_rows.rstrip(),
+        "",
+        sep2,
+        "      /\\/\\/\\",
+        "     ==========",
+        "  ⟦ VSF ✸ 2026 ⟧                                     INTERNAL USE ONLY",
+        SEP,
+    ])
+
+    return _page("VSF Monitor", body, refresh=30)
 
 
 @app.post("/api/v1/check", status_code=202)
