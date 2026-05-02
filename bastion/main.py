@@ -125,11 +125,16 @@ _CSS = """
     font-size: 14px;
     line-height: 1.7;
     padding: 3rem 4rem;
-    max-width: 78ch;
+    max-width: 93ch;
   }
   a { color: #111111; }
   pre { white-space: pre-wrap; }
 """
+
+_W   = 93
+_SEP = "=" * _W
+_sep = "-" * _W
+
 
 def _page(title: str, body: str, refresh: int = 0) -> str:
     refresh_tag = f'<meta http-equiv="refresh" content="{refresh}">\n' if refresh else ""
@@ -143,10 +148,10 @@ def _page(title: str, body: str, refresh: int = 0) -> str:
     )
 
 
-WELCOME = _page("vsf.u2738.org", """\
-==============================================================================
+WELCOME = _page("vsf.u2738.org", f"""\
+{_SEP}
 VIABLE SYSTEM FRAMEWORK  ::  vsf.u2738.org
-==============================================================================
+{_SEP}
 
   A formal implementation of Beer's Viable System Model (1972).
 
@@ -154,7 +159,7 @@ VIABLE SYSTEM FRAMEWORK  ::  vsf.u2738.org
   systems that coordinate without losing autonomy, adapt without losing
   identity, and serve human purposes without surrendering to capture.
 
-------------------------------------------------------------------------------
+{_sep}
   HISTORY
 
   In 1971, Stafford Beer designed Project Cybersyn under Salvador Allende's
@@ -168,7 +173,17 @@ VIABLE SYSTEM FRAMEWORK  ::  vsf.u2738.org
   VSF is born in Chile.
   The covenant exists because the Opsroom did not have a covenant.
 
-------------------------------------------------------------------------------
+{_sep}
+  THE KERNEL
+
+  At the core of VSF is a formal kernel that makes viability computable.
+  The kernel converges to a stable attractor under sustained operation --
+  a measurable signature of systemic health that persists through thermal
+  stress, long-run evolution, and perturbation.
+
+  This is not simulation. The convergence is empirically measured.
+
+{_sep}
   CONSTITUTIONAL PRINCIPLES
 
   A0   Every VSF system must serve human liberation, dignity of life,
@@ -179,103 +194,37 @@ VIABLE SYSTEM FRAMEWORK  ::  vsf.u2738.org
        deprivation, coercion, or administrative pressure.
        "Corruption through hunger is not a valid system transition."
 
-  Full specification: /covenant
+  Full specification: <a href="/covenant">/covenant</a>
 
-------------------------------------------------------------------------------
+{_sep}
   DOCUMENTS
 
-  /covenant     constitutional specification  (VSM 0.1)
-  /license      terms of use  (VSF Kernel License 1.0)
+  <a href="/covenant">/covenant</a>     constitutional specification  (VSM 0.1)
+  <a href="/license">/license</a>      terms of use  (VSF Kernel License 1.0)
 
   Research and source code:
   <a href="https://github.com/rm-w3kufe/vsf-sandbox">github.com/rm-w3kufe/vsf-sandbox</a>
 
   Contact and implementation inquiries:
-  luis@tallerpineda.cl
+  <a href="mailto:rmw3kufe@proton.me">rmw3kufe@proton.me</a>
 
-------------------------------------------------------------------------------
-      /\\/\\/\\
-     ==========
+{_sep}
   ⟦ VSF ✸ 2026 ⟧
 
   Luis Pineda R.
   Crafted with cybernetic artisanship
   Sitio Eriazo  --  Valparaíso, Chile
-==============================================================================
+{_SEP}
 """)
 
 
-LICENSE_PAGE = _page("VSF License  ::  vsf.u2738.org", """\
-==============================================================================
-VSF KERNEL LICENSE 1.0  ::  vsf.u2738.org/license
-==============================================================================
-
-  Author  : Luis Pineda R.
-  Contact : luis@tallerpineda.cl
-  Issued  : 2026-05-01
-
-------------------------------------------------------------------------------
-  PREAMBLE
-
-  This software implements experimental kernels derived from the Viable
-  System Model (VSM). It is released to the scientific and technical
-  community for research, education, and non-commercial experimentation.
-
-  This framework is not built for personal accumulation. It is built for
-  the industrial and intellectual development of a people. Its fruits
-  belong to the community that makes viable systems possible.
-
-------------------------------------------------------------------------------
-  GRANT OF RIGHTS
-
-  You may freely use, copy, and distribute this software for:
-    -- Academic study and research
-    -- Education and teaching
-    -- Personal experimentation
-    -- Scientific publication (with attribution)
-
-------------------------------------------------------------------------------
-  CONDITIONS
-
-  COVENANT INTEGRITY
-  The Covenant (covenant.vsm) must remain unmodified in any distribution.
-  The kernel verifies the Covenant Hash at startup. Any distribution with
-  a modified or missing Covenant violates this license.
-
-  ATTRIBUTION
-  All publications and derivative works must include:
-    "Built on the Viable System Framework (VSF) by Luis Pineda R.,
-     derived from Beer's Viable System Model (1972)."
-
-------------------------------------------------------------------------------
-  RESTRICTIONS
-
-  -- No commercial implementation without an Implementation Contract.
-  -- No mission-critical deployment without an Implementation Contract.
-  -- No Covenant removal or modification.
-  -- No A0/A0.1 violation under any justification.
-
-  Implementation Contracts: rmw3kufe@proton.me
-
-------------------------------------------------------------------------------
-  FUTURE GOVERNANCE
-
-  Long-term governance is intended to transition to a collective body --
-  a foundation or directorate with gender equity and representation from
-  diverse disciplines and communities. No single person should carry
-  the weight of a system designed to distribute it.
-
-------------------------------------------------------------------------------
-      /\\/\\/\\
-     ==========
-  ⟦ VSF ✸ 2026 ⟧
-
-  Crafted with cybernetic artisanship
-  Sitio Eriazo -- Valparaiso, Chile
-==============================================================================
-  Full license: <a href="https://github.com/rm-w3kufe/vsf-sandbox/blob/main/LICENSE">github.com/rm-w3kufe/vsf-sandbox/blob/main/LICENSE</a>
-==============================================================================
-""")
+_LICENSE_FALLBACK = (
+    f"{_SEP}\nVSF KERNEL LICENSE 1.0  ::  vsf.u2738.org/license\n{_SEP}\n\n"
+    "  Full text: "
+    "<a href=\"https://github.com/rm-w3kufe/vsf-sandbox/blob/main/LICENSE\">"
+    "github.com/rm-w3kufe/vsf-sandbox/blob/main/LICENSE</a>\n\n"
+    f"{_SEP}"
+)
 
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
@@ -287,7 +236,10 @@ def welcome():
 
 @app.get("/license", response_class=HTMLResponse)
 def license_page():
-    return LICENSE_PAGE
+    for candidate in (BASE_DIR / "LICENSE", BASE_DIR.parent / "LICENSE"):
+        if candidate.exists():
+            return _page("VSF License 1.0  ::  vsf.u2738.org", candidate.read_text())
+    return _page("VSF License 1.0  ::  vsf.u2738.org", _LICENSE_FALLBACK)
 
 
 @app.get("/health")
@@ -368,11 +320,11 @@ def monitor_page(t: str = ""):
         for r in recent
     ) or "  —\n"
 
-    SEP  = "=" * 78
-    sep2 = "-" * 78
+    SEP  = _SEP
+    sep2 = _sep
     ts_line = f"  {now}"
     lbl     = "[auto-refresh: 30s]"
-    header  = ts_line + " " * (78 - len(ts_line) - len(lbl)) + lbl
+    header  = ts_line + " " * (_W - len(ts_line) - len(lbl)) + lbl
 
     body = "\n".join([
         SEP,
@@ -404,9 +356,7 @@ def monitor_page(t: str = ""):
         threat_rows.rstrip(),
         "",
         sep2,
-        "      /\\/\\/\\",
-        "     ==========",
-        "  ⟦ VSF ✸ 2026 ⟧                                     INTERNAL USE ONLY",
+        "  ⟦ VSF ✸ 2026 ⟧                                          INTERNAL USE ONLY",
         SEP,
     ])
 
