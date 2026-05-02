@@ -5,9 +5,17 @@ vsf.u2738.org — VSF Bastion
 
 import asyncio
 import json
+import logging
 import sqlite3
 import time
 from contextlib import contextmanager
+
+# fail2ban hook — writes HONEYPOT lines to /var/log/vsf-honeypot.log
+_honeypot_log = logging.getLogger("vsf.honeypot")
+_h = logging.FileHandler("/var/log/vsf-honeypot.log")
+_h.setFormatter(logging.Formatter("%(asctime)s HONEYPOT %(message)s"))
+_honeypot_log.addHandler(_h)
+_honeypot_log.setLevel(logging.WARNING)
 from pathlib import Path
 from typing import Literal
 
@@ -369,6 +377,7 @@ async def honeypot(request: Request, call_next):
                     body,
                 ),
             )
+        _honeypot_log.warning("%s %s %s", request.client.host, request.method, path)
         await asyncio.sleep(TARPIT_SECS)
         return JSONResponse(DECOY, status_code=200)
     return await call_next(request)
