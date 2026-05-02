@@ -323,7 +323,7 @@ def monitor_page(t: str = ""):
     SEP  = _SEP
     sep2 = _sep
     # _COL: both right-side labels start at same column, line stays short
-    _COL   = 27
+    _COL   = 36
     _ts    = f"  {now}"   # always 22 chars (ISO timestamp)
     header = _ts + " " * (_COL - len(_ts)) + "[auto‑refresh: 30s]"
 
