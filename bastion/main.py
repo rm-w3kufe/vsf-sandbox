@@ -322,9 +322,10 @@ def monitor_page(t: str = ""):
 
     SEP  = _SEP
     sep2 = _sep
-    _ts  = f"  {now}"
-    _lbl = "[auto‑refresh: 30s]"
-    header = _ts + " " * (_W - len(_ts) - len(_lbl)) + _lbl
+    # _COL: both right-side labels start at same column, line stays short
+    _COL   = 27
+    _ts    = f"  {now}"   # always 22 chars (ISO timestamp)
+    header = _ts + " " * (_COL - len(_ts)) + "[auto‑refresh: 30s]"
 
     body = "\n".join([
         SEP,
@@ -351,12 +352,12 @@ def monitor_page(t: str = ""):
         ver_str,
         "",
         sep2,
-        "  RECENT THREATS" + " " * (_W - 16 - 9) + "[last 10]",
+        "  RECENT THREATS" + " " * (_COL - 16) + "[last 10]",
         "",
         threat_rows.rstrip(),
         "",
         sep2,
-        "  ⟦ VSF ✸ 2026 ⟧" + " " * (_W - 16 - 17) + "INTERNAL USE ONLY",
+        "  ⟦ VSF ✸ 2026 ⟧     INTERNAL USE ONLY",
         SEP,
     ])
 
