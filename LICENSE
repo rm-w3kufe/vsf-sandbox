@@ -175,18 +175,17 @@ accessible.
 FUTURE OPEN SOURCE RELEASE
 ---------------------------
 
-The Author reserves the right to release this Software under Apache
-License 2.0 when distributed governance conditions are mature enough to
-self-govern Covenant integrity without central authority. This decision
-is unilateral and voluntary — there is no automatic conversion date. The
-Author's intention is openness; the timing is a function of readiness,
-not of a deadline.
+Apache License 2.0 activates automatically when the VSF governance body
+is established, as formally specified in covenant.vsm §governance.
 
-The long-term governance of VSF is intended to transition to a collective
-body — a foundation or directorate with gender equity and representation
-from diverse disciplines and communities. No single person should carry
-the weight of a system designed to distribute it. This transition is a
-design goal, not a concession.
+The governance body is a foundation, directorate, or equivalent legal
+entity with: formal decision-making authority over S5 (covenant + license),
+gender equity in composition, multi-disciplinary representation, and at
+least 3 active members from distinct institutions.
+
+Establishment must be documented publicly and registered in covenant.vsm
+as a version increment. This transition is a design goal, not a concession —
+no single person should carry the weight of a system designed to distribute it.
 
 The Covenant and attribution requirements survive any future license change.
 
@@ -207,7 +206,7 @@ explicit scope limitations.
 ---
 VSF Kernel License 1.0 — issued 2026-05-01
 Author: Luis Pineda R. (rmw3kufe@proton.me)
-Covenant SHA-256: 0bded3b92119e9dc59937a8920716d1211346ff163efb1b136d170b658ef92ac
+Covenant SHA-256: dde12ead57a01d1c039da7193b2e007e02a8709bf8699d46cbe69e16e95a5642
 
 ╔═══════════════════════════════════════════════════════╗
 ║                                                       ║

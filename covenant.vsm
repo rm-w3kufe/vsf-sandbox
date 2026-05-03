@@ -1,6 +1,6 @@
 @vsm 0.1
 // VSF CONSTITUTIONAL COVENANT — PUBLIC EDITION
-// Version: 1.0
+// Version: 1.1
 // Status: active
 // Authors: Luis Pineda R. (rmw3) | Claude (VSF session, Anthropic)
 // Witness nodes: gemini-vsl-core | GPT-4o
@@ -164,6 +164,34 @@ evolution:
     EN: "Every modification requires consensus of active signatories
          + public record of the reason + version increment."
   direction: "toward_greater_dignity — monotonic"
+
+
+// ─── GOVERNANCE TRANSITION ───────────────────────────────────────────────────
+
+governance:
+  current_authority: "rmw3 (founding author) — sole S5, transitional"
+
+  transition_trigger:
+    condition: "governance_body.status == established"
+    effect:    "Apache License 2.0 activates for VSF Software"
+    invariant: "A0 ∧ A0.1 survive any governance transition — unconditionally"
+    note:      "Covenant and attribution requirements survive license change"
+
+  governance_body:
+    type: "foundation, directorate, or equivalent legal entity"
+    required:
+      - "formal decision-making authority over S5 (covenant + license)"
+      - "gender equity in governance composition"
+      - "multi-disciplinary representation"
+      - "at least 3 active members from distinct institutions"
+    declaration:
+      EN: "Establishment must be documented publicly and registered in
+           covenant.vsm as a version increment with all active signatories."
+      ES: "El establecimiento debe documentarse públicamente y registrarse
+           en covenant.vsm como incremento de versión con todos los
+           signatarios activos."
+
+  direction: "toward_distributed_sovereignty — monotonic"
 
 
 // ─── PROHIBITED USES ─────────────────────────────────────────────────────────
