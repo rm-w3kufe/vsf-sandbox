@@ -45,6 +45,9 @@ coercion, or administrative pressure. The sovereignty of purpose is inalienable.
 
 These axioms are formally specified in [`covenant.vsm`](covenant.vsm).
 
+**Covenant SHA-256 (v1.0):** `0bded3b92119e9dc59937a8920716d1211346ff163efb1b136d170b658ef92ac`  
+Verify: `sha256sum covenant.vsm` — must match [`LICENSE`](LICENSE).
+
 ---
 
 ## Getting started
