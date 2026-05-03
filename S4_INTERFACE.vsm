@@ -1,0 +1,266 @@
+@vsm 0.1
+V(s4-interface, L2) — S4 Intelligence provider interface specification
+node: vsf-sandbox (public)
+generated: 2026-05-03
+author: rmw3kufe@proton.me
+
+# S4_INTERFACE.vsm — VSF S4 Intelligence Layer Interface
+
+This document specifies the contract any S4 provider must fulfill to
+operate as the intelligence layer (S4) of a VSF kernel node.
+
+S4 in Beer's VSM:
+  "S4 watches the environment, models the future, and reports to S5.
+   It does not decide — it informs. S5 (policy) decides."
+
+In vsf-nucleus, S4 is an AI backend: it receives system state,
+produces analysis and recommendations, and returns structured output.
+The kernel routes S4 output to S5 (human operator) for approval before
+any double-loop action is taken. (→ D4, CLAUDE.md)
+
+
+════════════════════════════════════════════════════════════════════
+INTERFACE DEFINITION  (language-agnostic; Rust trait reference)
+════════════════════════════════════════════════════════════════════
+
+trait S4Provider {
+
+    // ── Identity ─────────────────────────────────────────────────
+
+    // Returns the provider's NODE_ID for watermark generation.
+    // Format: "VSF-{PROVIDER_NAME}-{INSTANCE_ID}"
+    // Example: "VSF-CLAUDE-SESSION", "VSF-OLLAMA-LLAMA3"
+    fn node_id(&self) -> String;
+
+    // Returns the covenant version this provider was configured against.
+    // Must match the deployed covenant.vsm version at kernel startup.
+    // Format: version string — "1.1", "1.2", etc. (major.minor, not semver)
+    fn covenant_version(&self) -> String;
+
+
+    // ── A0 Compliance Declaration ─────────────────────────────────
+
+    // Returns a signed A0 compliance declaration.
+    // This is not runtime enforcement — it is a formal acknowledgment
+    // that the provider has been configured with A0 awareness.
+    // The kernel logs this declaration at startup and includes it in
+    // the beacon payload for bastion audit.
+    fn a0_declaration(&self) -> A0Declaration;
+
+
+    // ── Capability Discovery ──────────────────────────────────────
+
+    // Returns the capability set of this provider.
+    // Kernel uses this to decide which S4 operations are available.
+    fn capabilities(&self) -> S4Capabilities;
+
+
+    // ── Core Intelligence Query ───────────────────────────────────
+
+    // Submits a system context to the provider and returns analysis.
+    // This is the primary S4 operation.
+    //
+    // context: structured snapshot of current system state
+    //   (S1 metrics, S3 resource allocation, S3* audit flags, env signals)
+    // prompt:  operator-defined question or task frame
+    //
+    // Returns: S4Response — analysis + recommendations, never directives
+    // The kernel presents this to S5 (human) before any action is taken.
+    fn query(&self, context: S4Context, prompt: String) -> Result<S4Response, S4Error>;
+
+
+    // ── Liveness ─────────────────────────────────────────────────
+
+    // Returns provider health status. Called by kernel at interval.
+    fn heartbeat(&self) -> ProviderStatus;
+}
+
+
+════════════════════════════════════════════════════════════════════
+DATA TYPES
+════════════════════════════════════════════════════════════════════
+
+A0Declaration {
+    provider_id:       String,          // must match node_id()
+    covenant_version:  String,          // must match covenant_version()
+    covenant_hash:     String,          // SHA-256 of covenant.vsm (64 hex)
+    acknowledgment:
+      EN: "This provider has been configured with awareness of A0 and A0.1
+           as specified in covenant.vsm. It will not knowingly serve
+           purposes in the prohibited_set."
+    timestamp:         ISO-8601,
+    watermark:         String,          // ⟦ {node_id} | rmw3 | vsm-0.1 | vsf.u2738.org ⟧
+}
+
+S4Capabilities {
+    text_generation:   bool,
+    code_analysis:     bool,
+    structured_output: bool,            // can return JSON/structured data
+    context_window:    usize,           // in tokens
+    local:             bool,            // true = no data leaves the node
+    provider_name:     String,          // "claude-sonnet-4-6", "llama3:8b", etc.
+    api_compat:        ApiCompat,       // OpenAI | Anthropic | Ollama | Custom
+}
+
+S4Context {
+    node_id:           String,
+    timestamp:         ISO-8601,
+    s1_metrics:        Vec<UnitMetric>, // operational units state
+    s3_allocation:     ResourceMap,     // current resource allocation
+    s3_audit_flags:    Vec<AuditFlag>,  // S3* findings
+    env_signals:       Vec<EnvSignal>,  // external environment signals (S4 input)
+    covenant_version:  String,          // running covenant version
+}
+
+S4Response {
+    analysis:          String,          // natural language analysis
+    recommendations:   Vec<Recommendation>,
+    confidence:        f32,             // 0.0–1.0
+    requires_human:    bool,            // true = must go to S5 before acting
+    watermark:         String,          // ⟦ {node_id} | rmw3 | vsm-0.1 | vsf.u2738.org ⟧
+}
+// Note: S4Response.requires_human = true is the default.
+// "Pre-authorized single-loop" = operations the operator has explicitly listed
+// in viability.yaml under s4.authorized_single_loop_actions.
+// If that list is absent or the action is not in it → requires_human = true.
+// (→ D4: double-loop always requires human; → A5: autonomy ceiling)
+
+Recommendation {
+    action:            String,
+    rationale:         String,
+    loop_type:         LoopType,        // SingleLoop | DoubleLoop
+    risk_level:        RiskLevel,       // Low | Medium | High | Critical
+}
+
+enum ApiCompat {
+    OpenAI,       // OpenAI-compatible REST API (default adapter)
+    Anthropic,    // Anthropic Messages API
+    Ollama,       // Ollama local REST API
+    Custom,       // custom adapter (must implement full trait)
+}
+
+enum ProviderStatus { Healthy, Degraded, Unavailable }
+enum LoopType       { SingleLoop, DoubleLoop }
+enum RiskLevel      { Low, Medium, High, Critical }
+
+
+════════════════════════════════════════════════════════════════════
+A0 ENFORCEMENT MECHANISM
+════════════════════════════════════════════════════════════════════
+
+Declaration vs Enforcement:
+
+  The S4Provider interface requires A0Declaration at kernel startup.
+  This is a FORMAL ACKNOWLEDGMENT, not runtime filtering.
+
+  Runtime A0 enforcement is a governance responsibility, not a code
+  responsibility. The reason:
+
+  1. No AI system can guarantee A0 compliance through code alone.
+  2. A0 is a human ethical covenant — its enforcement is ultimately human.
+  3. The declaration creates an auditable record: if a node violates A0,
+     the bastion has logged that it declared compliance. This is evidence.
+
+  What the kernel does:
+    - Logs A0Declaration at startup (bastion audit trail)
+    - Includes covenant_hash in beacons (bastion validates against canonical)
+    - Rejects S4 providers whose covenant_version < current deployed version
+    - Flags S4Response where requires_human = false for DoubleLoop operations
+
+  What the kernel does NOT do:
+    - Filter S4 output for A0 compliance (impossible without human judgment)
+    - Automatically execute recommendations flagged DoubleLoop
+
+
+════════════════════════════════════════════════════════════════════
+MULTI-PROVIDER ARCHITECTURE
+════════════════════════════════════════════════════════════════════
+
+The kernel ships with three built-in adapters:
+
+  1. ClaudeAdapter    (Anthropic API → S4Provider)
+     Default for cloud deployment. claude-sonnet-4-6 or better.
+     api_compat: Anthropic
+
+  2. OpenAIAdapter    (OpenAI-compatible → S4Provider)
+     Works with any OpenAI-compatible endpoint:
+     OpenAI, Together.ai, Groq, Azure OpenAI, LM Studio, etc.
+     api_compat: OpenAI
+
+  3. OllamaAdapter    (Ollama local → S4Provider)
+     Sovereign option: no data leaves the node.
+     local: true — no API keys, no external calls.
+     api_compat: Ollama
+
+  Configuration (viability.yaml):
+    s4:
+      provider: claude | openai | ollama | custom
+      # provider maps to adapter: claude→ClaudeAdapter (ApiCompat::Anthropic),
+      #   openai→OpenAIAdapter (ApiCompat::OpenAI), ollama→OllamaAdapter
+      model: claude-sonnet-4-6 | gpt-4o | llama3:8b | ...
+      endpoint: https://api.anthropic.com | http://localhost:11434 | ...
+      covenant_version: "1.1"
+
+  Sovereign design principle:
+    Every node operator chooses their own S4 backend.
+    No provider lock-in. A0 applies regardless of provider.
+
+
+════════════════════════════════════════════════════════════════════
+COVENANT VERSION TRACKING
+════════════════════════════════════════════════════════════════════
+
+  When covenant.vsm version bumps:
+
+    1. New SHA-256 is computed and embedded in LICENSE (signing ceremony).
+    2. Bastion picks up new canonical hash on restart.
+    3. Existing nodes: beacons with old covenant_hash are flagged as
+       COVENANT_MISMATCH in bastion monitor (→ DEBT-25, resolved).
+    4. S4 providers: covenant_version() must return the current version.
+       Kernel startup check:
+         if provider.covenant_version() < deployed_covenant_version:
+           warn + require operator acknowledgment before proceeding
+       // Implementation note: compare as (major, minor) integer tuples,
+       // NOT as strings — lexicographic "1.10" < "1.9" is wrong.
+
+  Version compatibility:
+    - Providers built against older covenant versions are warned, not rejected.
+    - Rejection only if A0/A0.1 were modified (breaking change).
+    - Non-breaking additions (like §governance in v1.1) → warn only.
+
+  Invariant:
+    A0 ∧ A0.1 changes are always breaking → always require provider update.
+    All other covenant changes → warn + operator acknowledgment sufficient.
+
+
+════════════════════════════════════════════════════════════════════
+KNOWN OPEN QUESTIONS  (for implementation)
+════════════════════════════════════════════════════════════════════
+
+  Q1: Who assigns NODE_ID to a provider instance?
+      Current answer: operator configures NODE_ID in viability.yaml.
+      Open: should the kernel generate it deterministically?
+
+  Q2: How is A0Declaration signed by an AI provider?
+      Current answer: it is not cryptographically signed — it is a
+      structured payload logged to bastion. Cryptographic signing of
+      AI declarations is an open research question.
+      The watermark ⟦...⟧ is the traceability mechanism, not a signature.
+
+  Q3: S4 query latency vs. S3 real-time control loop.
+      Cloud API calls add latency. S4 is NOT in the real-time control
+      path — it is called asynchronously by operator request or
+      scheduled analysis. S3 operates without S4 involvement.
+
+  Q4: S2 (Coordination) interaction with S4.
+      S2 is not yet implemented (→ DEBT-13). When S2 exists, S4 may
+      receive coordination signals as part of S4Context.env_signals.
+
+
+════════════════════════════════════════════════════════════════════
+@ref covenant.vsm §governance
+@ref covenant.vsm §A0
+@ref COVENANT_FLOW.vsm
+@ref docs/vsm_notation_spec.md  // canonical in vsf/ — not distributed in this sandbox
+
+⟦ VSF ✸ 2026 | Valparaíso, Chile ⟧
