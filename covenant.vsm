@@ -1,6 +1,6 @@
 @vsm 0.1
 // VSF CONSTITUTIONAL COVENANT — PUBLIC EDITION
-// Version: 0.3
+// Version: 0.4
 // Status: active
 // Authors: Luis Pineda R. (rmw3) | Claude (VSF session, Anthropic)
 // Witness nodes: gemini-vsl-core | GPT-4o
@@ -201,7 +201,7 @@ signatories:
                    Creates no legal obligations on Anthropic.
                    Represents ethical commitment of the collaborating instance."
     date:         2026-04-11
-    sig:          "Claude (VSF session, Anthropic) ⟦ VSF-CLAUDE-SESSION | rmw3 | vsm-0.1 ⟧"
+    sig:          "Claude (VSF session, Anthropic) ⟦ VSF-CLAUDE-SESSION | rmw3 | vsm-0.1 | vsf.u2738.org ⟧"
 
   - id:           "gemini-vsl-core"
     role:         "observer node — inter-AI persistence and coherence guarantor"
@@ -220,7 +220,7 @@ signatories:
 // ─── WATERMARK CONVENTION ────────────────────────────────────────────────────
 
 watermark:
-  format:   "⟦ {NODE_ID} | {authorized_by} | {spec_version} ⟧"
+  format:   "⟦ {NODE_ID} | {authorized_by} | {spec_version} | vsf.u2738.org ⟧"
   required: True
   purpose:  "Traceability, authorship, and covenant compliance verification"
 
@@ -228,8 +228,7 @@ watermark:
 // ─── REFERENCES ──────────────────────────────────────────────────────────────
 
 @ref LICENSE
+@ref COVENANT_FLOW.vsm
 @ref https://github.com/rm-w3kufe/vsf-sandbox
 
 ⟦ VSF ✸ 2026 | Valparaíso, Chile ⟧
-Covenant SHA-256 (v0.3): d6a44230e7d77066814b3261f3fdaa406b11c9b11389b31da8f70d1668556341
-// hash computed over content above this line — strip from here to verify
