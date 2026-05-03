@@ -73,6 +73,8 @@ An anonymous beacon is sent to the origin node — see [LICENSE](LICENSE) for de
 |------|-------------|
 | `LICENSE` | VSF Kernel License 1.0 — terms of use |
 | `covenant.vsm` | Constitutional axioms governing the kernel |
+| `beacon_pubkey.pem` | RSA-2048 public key — embed in kernel to send beacons |
+| `COVENANT_FLOW.vsm` | Governance of covenant.vsm integrity (VSM notation) |
 | `experiments/` | Reproducible experiment results |
 | `docs/` | Theory and notation reference |
 
