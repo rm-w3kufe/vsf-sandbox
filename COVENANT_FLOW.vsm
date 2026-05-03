@@ -1,0 +1,214 @@
+@vsm 0.1
+V(covenant-integrity, L1) — canonical information flow register
+node: vsf-sandbox (public repository)
+generated: 2026-05-03
+author: rmw3kufe@proton.me
+
+# COVENANT_FLOW.vsm — Governance of covenant.vsm Integrity
+
+This document formalizes the system that keeps covenant.vsm trustworthy.
+It is not a policy document — that is covenant.vsm itself.
+This is the operational system that governs how covenant.vsm moves,
+is signed, deployed, and verified.
+
+The system is defined using VSF/VSM notation (Beer 1972):
+S1 Operations | S2 Coordination | S3 Control | S4 Intelligence | S5 Policy
+
+
+════════════════════════════════════════════════════════════════════
+S5 — POLICY (the covenant text itself)
+════════════════════════════════════════════════════════════════════
+
+  File:     covenant.vsm  (this repository)
+  Content:  A0 / A0.1 axioms, signatories, watermark convention
+  Rule:     S5 cannot be edited without triggering S3 release gate.
+            A change to A0 or A0.1 requires re-signing by all
+            active signatories (status: VERIFIED).
+
+  Self-reference:
+    The document whose integrity this system protects is itself
+    the policy that authorizes this system.
+    Resolution: S5 is frozen per version. A new version is a new S5.
+
+
+════════════════════════════════════════════════════════════════════
+S4 — INTELLIGENCE (amendment channel)
+════════════════════════════════════════════════════════════════════
+
+  Who proposes:   any signatory or community contributor (GitHub issue / PR)
+  Who decides:    rmw3 (founding author) — single-loop approval
+  Threshold:      changes to A0 / A0.1 require explicit re-signing
+                  by all nodes with status: VERIFIED
+  Channel:        git PR on vsf-sandbox → discussion → S3 release gate
+  Constraint:     D4 (VSF): double-loop corrections require human approval
+
+
+════════════════════════════════════════════════════════════════════
+S3 — CONTROL (release gate)
+════════════════════════════════════════════════════════════════════
+
+  Trigger:        any edit to covenant.vsm, regardless of scope
+  Gate owner:     rmw3 (sole authorized releaser at this governance stage)
+
+  Release protocol (signing ceremony):
+
+    Step 1 — FREEZE
+      Edit covenant.vsm in vsf-sandbox (S1.1).
+      No changes after this point until the ceremony completes.
+
+    Step 2 — COMPUTE
+      sha256sum covenant.vsm
+      Record the hash. This is the canonical hash for this version.
+
+    Step 3 — EMBED
+      Add to covenant.vsm footer:
+        Covenant SHA-256 (v<N>): <hash>
+        Note: hash is of content EXCLUDING this line and below.
+      Add to LICENSE footer:
+        Covenant SHA-256: <hash>
+      Add to vsf-infra/bastion/LICENSE.es footer:
+        SHA-256 del Convenio: <hash>
+
+    Step 4 — COMMIT
+      git add covenant.vsm LICENSE README.md
+      git commit -m "covenant: v<N> signed — SHA-256 embedded"
+      git push origin main
+      (vsf-infra: git add bastion/LICENSE.es + commit + push)
+
+    Step 5 — DEPLOY
+      scp vsf-sandbox/covenant.vsm n01:/home/rmw3/vsf-bastion/covenant.vsm
+      scp vsf-sandbox/LICENSE n01:/home/rmw3/vsf-bastion/LICENSE
+      ssh n01-vsf "sudo systemctl restart vsf-bastion"
+
+    Step 6 — VERIFY
+      curl -s https://vsf.u2738.org/covenant | grep "SHA-256"
+      → must match the committed hash
+
+  Version bump rule:
+    Any content change → new version number (0.3 → 0.4 → 1.0)
+    Hash-only embed (no content change) → same version, append "(signed)"
+    v1.0 = first fully signed public release
+
+
+════════════════════════════════════════════════════════════════════
+S2 — COORDINATION (sync rules — prevents divergence)
+════════════════════════════════════════════════════════════════════
+
+  Rule 1 — Single Write Origin
+    vsf-sandbox/covenant.vsm is the ONLY writable origin.
+    n01 is read-only from covenant.vsm's perspective:
+    it receives files via deploy, never via direct edit.
+
+  Rule 2 — No Direct Edit on n01
+    Never: ssh n01 "nano /home/rmw3/vsf-bastion/covenant.vsm"
+    Always: edit locally → commit → scp deploy
+
+  Rule 3 — LICENSE.es lives in vsf-infra
+    vsf-infra/bastion/LICENSE.es contains the Spanish hash anchor.
+    It must be updated in the same commit as the signing ceremony.
+
+  Rule 4 — Hash anchors are synchronized
+    After any signing ceremony, all three hash anchors must agree:
+      vsf-sandbox/LICENSE          → Covenant SHA-256: <hash>
+      vsf-infra/bastion/LICENSE.es → SHA-256 del Convenio: <hash>
+      covenant.vsm footer          → Covenant SHA-256 (vN): <hash>
+
+  Divergence detection:
+    sha256sum /home/rmw3/vsf-sandbox/covenant.vsm
+    ssh n01 "sha256sum /home/rmw3/vsf-bastion/covenant.vsm"
+    → both must match
+
+
+════════════════════════════════════════════════════════════════════
+S1 — OPERATIONS (physical file instances)
+════════════════════════════════════════════════════════════════════
+
+  S1.1 — canonical origin (read-write)
+    Path:   /home/rmw3/vsf-sandbox/covenant.vsm
+    Repo:   github.com/rm-w3kufe/vsf-sandbox  (public)
+    Access: rmw3 local + git push
+    Role:   source of truth — all other copies derive from here
+
+  S1.2 — live deployed instance (read-only from governance perspective)
+    Path:   n01:/home/rmw3/vsf-bastion/covenant.vsm
+    Served: https://vsf.u2738.org/covenant
+    Access: scp from rmw3 only (no direct edit)
+    Role:   public-facing endpoint — what users and verifiers see
+
+  S1.3 — hash anchor (English)
+    Path:   /home/rmw3/vsf-sandbox/LICENSE
+    Also:   n01:/home/rmw3/vsf-bastion/LICENSE
+    Field:  "Covenant SHA-256: <hash>"
+    Role:   public anchor — anyone can verify covenant.vsm integrity
+
+  S1.4 — hash anchor (Spanish)
+    Path:   /home/rmw3/vsf-infra/bastion/LICENSE.es
+    Also:   n01:/home/rmw3/vsf-bastion/LICENSE.es
+    Field:  "SHA-256 del Convenio: <hash>"
+    Role:   Spanish-language anchor — same integrity guarantee
+
+  S1.5 — /covenant endpoint (derived)
+    URL:    https://vsf.u2738.org/covenant
+    Source: FastAPI serves covenant.vsm content + hash from LICENSE
+    Role:   human-readable verification page (DEBT-02 when hash is live)
+
+
+════════════════════════════════════════════════════════════════════
+VERIFICATION PROCEDURE (for third parties)
+════════════════════════════════════════════════════════════════════
+
+  1. Download covenant.vsm from:
+       https://raw.githubusercontent.com/rm-w3kufe/vsf-sandbox/main/covenant.vsm
+
+  2. Strip the "Covenant SHA-256" footer line and everything below it.
+     Canonical content ends at the last non-hash line before the footer.
+
+  3. Compute: sha256sum covenant.vsm (stripped)
+
+  4. Compare with the hash published in:
+       LICENSE (same repo)
+       https://vsf.u2738.org/covenant (live endpoint)
+
+  5. Match → document has not been tampered with since signing.
+     Mismatch → flag as integrity failure; contact rmw3kufe@proton.me
+
+
+════════════════════════════════════════════════════════════════════
+CANONICAL FLOW DIAGRAM
+════════════════════════════════════════════════════════════════════
+
+  PROPOSE ──► S4 (amendment channel)
+                │  PR / discussion
+                ▼
+  APPROVE ──► S3 (release gate — rmw3)
+                │  signing ceremony
+                ▼
+  COMMIT  ──► S1.1 (vsf-sandbox/covenant.vsm)  ← single write origin
+                │  git push + scp deploy
+                ▼
+  DEPLOY  ──► S1.2 (n01/covenant.vsm)           ← live endpoint
+                │  served at /covenant
+                ▼
+  VERIFY  ──► anyone: sha256sum → compare LICENSE → pass/fail
+
+  S2 enforces: S1.2 never receives writes except from S1.1 via S3
+
+
+════════════════════════════════════════════════════════════════════
+CURRENT STATE
+════════════════════════════════════════════════════════════════════
+
+  covenant.vsm version:   0.3 (active)
+  SHA-256 embedded:       NO  (DEBT-01 — pending signing ceremony)
+  S1.1 ↔ S1.2 sync:       YES (verified 2026-05-03, hashes identical)
+  /covenant hash display: NO  (DEBT-02 — blocked by DEBT-01)
+
+  Next action: execute S3 signing ceremony for v0.3 (→ DEBT-01)
+
+
+════════════════════════════════════════════════════════════════════
+@ref covenant.vsm
+@ref LICENSE
+@ref https://github.com/rm-w3kufe/vsf-sandbox
+
+⟦ VSF ✸ 2026 | Valparaíso, Chile ⟧
