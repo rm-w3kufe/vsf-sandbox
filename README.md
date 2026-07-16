@@ -77,6 +77,7 @@ An anonymous beacon is sent to the origin node — see [LICENSE](LICENSE) for de
 | `COVENANT_FLOW.vsm` | Governance of covenant.vsm integrity (VSM notation) |
 | `experiments/` | Reproducible experiment results |
 | `docs/` | Theory and notation reference |
+| `METAPHORS.md` | The framework's capabilities in plain language — each metaphor states where it breaks (es) |
 
 The Rust kernel source is not included in this sandbox.
 For implementation contracts, contact `rmw3kufe@proton.me`.
