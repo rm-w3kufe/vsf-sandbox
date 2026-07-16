@@ -1,279 +1,265 @@
-# Metáforas Canónicas
+# Canonical Metaphors
 
-*Traducir un sistema viable a personas que no leen cibernética — sin mentirles.*
-
----
-
-## Por qué existe este repositorio
-
-Un sistema viable es abstracto. Las cinco funciones, la variedad requerida, la
-proyección anticipatoria: son ideas precisas, pero no entran por la puerta de nadie
-que no haya leído a Beer. La metáfora es el puente.
-
-Pero una metáfora es un préstamo contra la comprensión. Compra claridad escondiendo
-detalle, y el interés se paga exactamente donde la analogía se rompe. El campesino que
-riega antes de la sequía explica la anticipación de maravilla — hasta que alguien
-pregunta "¿y puede regar contra la sequía del próximo año?" y descubre que no, que solo
-ve un día adelante. Si esa pregunta no estaba respondida de antemano, la metáfora no
-enseñó: engañó.
-
-De ahí la **regla de la casa**, la única innegociable de este repositorio:
-
-> **Ninguna metáfora entra sin declarar dónde se rompe.**
-> Una metáfora sin punto de quiebre no es pedagogía: es propaganda.
-
-Es la misma disciplina que gobierna todo lo demás acá. El crédito que cerró este ciclo
-(+0.9 de autonomía en S4) se ganó cortando en ambos sentidos: se negó cuando no
-correspondía, se retractó cuando falló una prueba, y se acreditó solo cuando la evidencia
-lo sostuvo. Una metáfora honesta hace lo mismo: dice lo útil y, en la misma respiración,
-dice exactamente hasta dónde es cierto.
+*Translating a viable system to people who don't read cybernetics — without lying to them.*
 
 ---
 
-## Cómo agregar una metáfora
+## Why this repository exists
 
-Cada entrada tiene cuatro campos. Los cuatro son obligatorios; el tercero es el que
-distingue este repositorio de un folleto.
+A viable system is abstract. The five functions, requisite variety, anticipatory projection:
+precise ideas, but none walks through the door of anyone who hasn't read Beer. The metaphor is
+the bridge.
 
-- **Traduce:** *un* concepto, no diez. Si tu metáfora explica cinco cosas, probablemente
-  no explica bien ninguna.
-- **La historia:** concreta, cotidiana, sin jerga. Si necesitas una nota al pie, todavía
-  no es una metáfora.
-- **Dónde se rompe:** el punto exacto donde deja de ser cierta. Obligatorio. Aquí se paga
-  el préstamo.
-- **En el sistema:** el mecanismo real que traduce, con puntero, para quien quiera bajar
-  del cuento al fierro.
+But a metaphor is a loan against understanding. It buys clarity by hiding detail, and the interest
+comes due exactly where the analogy breaks. The farmer who waters before the drought explains
+anticipation beautifully — until someone asks "and can he water against *next year's* drought?" and
+discovers he can't, that he only sees a day ahead. If that question wasn't answered in advance, the
+metaphor didn't teach: it deceived.
 
----
+Hence the **house rule**, the one non-negotiable of this repository:
 
-## Parte I — Qué *es* el sistema
+> **No metaphor enters without declaring where it breaks.**
+> A metaphor without a stated breaking-point is not pedagogy: it is propaganda.
 
-### El taller y sus cinco oficios
-
-**Traduce:** las cinco funciones de un sistema viable (S1–S5).
-
-**La historia.** Imagina un taller que sobrevive por décadas. Hay cinco oficios, y
-ninguno sobra. **Las manos** (S1) hacen el trabajo: cortan, sueldan, arman. Los **reflejos
-compartidos** (S2) evitan que dos manos alcancen la misma herramienta al mismo tiempo — no
-mandan, solo impiden el choque. El **jefe de piso** (S3) reparte lo que hay: quién usa qué,
-cuánto, cuándo. El **inspector sorpresa** (S3\*) aparece sin avisar y mira lo que los
-informes no muestran. El **vigía en el techo** (S4) no mira el taller: mira el horizonte, la
-calle, el clima, lo que viene. Y la **constitución** (S5) fija los límites que nadie —
-tampoco el jefe— puede saltarse. Un taller vivo tiene los cinco. Quítale el vigía y sobrevive
-hasta la primera sorpresa; quítale la constitución y el más fuerte se lo come.
-
-**Dónde se rompe.** En un taller de verdad los oficios se mezclan: la misma persona a veces
-corta y a veces reparte. En un cuerpo, aún peor: no hay un "jefe de piso" que puedas señalar.
-La separación es un lente para *diagnosticar*, no un plano de cómo se ve por dentro. Y hay una
-diferencia que el taller no captura: aquí cada mano puede ser, ella misma, un taller completo
-con sus propios cinco oficios (ver *las muñecas rusas*).
-
-**En el sistema:** S1–S5 en `viability.yaml`; `docs/concepts.md`; patrón Cybersyn.
+It's the same discipline that governs everything else here. The credit that closed this cycle
+(+0.9 of autonomy in S4) was earned by cutting in both directions: refused when it wasn't warranted,
+retracted when a test failed, credited only when the evidence held. An honest metaphor does the same:
+it says the useful thing and, in the same breath, says exactly how far it's true.
 
 ---
 
-## Parte II — Qué *hace*
+## How to add a metaphor
 
-### El campesino que riega antes de la sequía
+Four fields. All four mandatory; the third is what separates this repository from a brochure.
 
-**Traduce:** la anticipación — la proyección de S4 que actúa *antes* de la excursión.
-
-**La historia.** Dos campesinos, el mismo campo, la misma agua. El primero riega cuando la
-planta ya está mustia: reacciona al daño. El segundo lee el cielo y la tierra, y riega el día
-*antes* de que llegue el calor. No usó más agua — usó la misma, movida un día antes, guiada por
-una lectura del horizonte. Su planta nunca se marchita. Eso es toda la anticipación: no más
-recursos, los mismos recursos movidos a tiempo, porque alguien miró hacia adelante.
-
-**Dónde se rompe.** La lectura del cielo solo sirve tan lejos como el clima sea legible. Leído
-demasiado lejos, el campesino ya no está anticipando: está adivinando el promedio de la estación
-—que es nuestro límite exacto—. Nuestro "cielo" es legible como un día; más allá, la proyección
-converge a la tasa base (ver *la tabla actuarial*). Y una honestidad más: por ahora nuestro
-campesino riega en un ensayo — la reasignación está validada pero es *simulada*, no actuada
-todavía sobre tierra real.
-
-**En el sistema:** proyección Markov de S4 → reasignación anticipatoria; EXP-S4-01
-(las cuatro hipótesis pasan en una config; efecto ~14%, adelanto 1 día);
-`docs/theory/anticipatory_prevention.vsm`.
-
-### El precio de seguir siendo uno mismo
-
-**Traduce:** la viabilidad epistémica — el costo continuo de mantener la coherencia.
-
-**La historia.** Un cuerpo en reposo parece no hacer nada. Pero está pagando, cada segundo,
-por mantener su temperatura y su química dentro de la banda estrecha donde la vida es posible.
-Seguir siendo uno mismo no es gratis: es una cuenta que se paga sin parar contra la corriente
-que empuja hacia la disolución. Un sistema que deja de pagar no se queda quieto — se deshace.
-Existir ya cuesta; *conocer* cuesta aparte.
-
-**Dónde se rompe.** Los "dos precios" —el de existir y el de conocer— son más nítidos en la
-metáfora que en la matemática, donde se enredan. Y hay una asimetría que el cuerpo no muestra:
-la banda de un cuerpo la fija la biología, y no se equivoca; la nuestra la fija una política
-(ver *el termostato*), y sí puede estar mal. Nuestra banda es una decisión, no una ley de la
-naturaleza.
-
-**En el sistema:** paper *epistemic_viability*; la región viable Ω; `stasis_cos`.
-
-### La mano que se retira antes de que el cerebro decida
-
-**Traduce:** la señal algedónica — el canal de dolor/placer que evita la capa lenta.
-
-**La historia.** Tocas una olla caliente y tu mano se retira *antes* de que hayas pensado la
-palabra "caliente". La señal no espera a la deliberación: tiene un cable propio, rápido, directo
-a la acción. Un sistema viable necesita ese cable — un canal de alarma que se salta la capa
-pensante cuando algo es urgente, porque pensar toma tiempo y a veces el tiempo es justo lo que
-no hay.
-
-**Dónde se rompe.** Un reflejo es tonto por diseño — puede retirar la mano de un calor que
-confundió con fuego. Por eso el reflejo nunca puede ser el único juez: la capa lenta revisa
-después. En nuestro sistema el camino reflejo es *determinista* y tiene prohibido usar el modelo
-de lenguaje (regla R10), precisamente porque un reflejo "inteligente" es un reflejo lento, y un
-reflejo lento no es un reflejo.
-
-**En el sistema:** canal algedónico; reglas R10/R10.1; `vsf-s5-algedonic`.
-
-### El arquero y la variedad requerida
-
-**Traduce:** la Ley de Ashby — para regular algo necesitas al menos tanta variedad como te lanza.
-
-**La historia.** Un arquero solo puede atajar tantos *tipos* de tiro como tipos de atajada tenga.
-Enfréntalo a un delantero con más trucos que atajadas tiene el arquero, y será batido — no por
-mala suerte, por aritmética. Para controlar algo necesitas al menos tanta variedad como ese algo
-te arroja. No es un eslogan: es una ley, tan dura como la de la palanca.
-
-**Dónde se rompe.** La metáfora sugiere que la única salida es *crecer* tu variedad hasta igualar
-la del mundo. Falso, y peligroso: a veces la jugada honesta es *reducir* la variedad del mundo —
-achicar el arco, poner un filtro, coordinar para que no lleguen todos los tiros a la vez— en lugar
-de fingir que puedes atajarlo todo. La ley dice que necesitas la variedad; no dice que debas
-conseguirla creciendo. Eso es lo que hacen S2 y los filtros.
-
-**En el sistema:** Cyberfilter/S3, coordinación S2; Ashby como fundamento de la variedad.
+- **Translates:** *one* concept, not ten. If your metaphor explains five things, it probably explains
+  none of them well.
+- **The story:** concrete, everyday, no jargon. If it needs a footnote, it isn't a metaphor yet.
+- **Where it breaks:** the exact point where it stops being true. Mandatory. This is where the loan
+  is repaid.
+- **In the system:** the real mechanism it translates, with a pointer, for anyone who wants to go
+  from the story down to the iron.
 
 ---
 
-## Parte III — Qué *no* hace
+## Part I — What the system *is*
 
-*(La parte más importante para la confianza. Un sistema que solo publicita lo que hace es un
-vendedor; uno que publicita con igual cuidado lo que no hace es un socio.)*
+### The workshop and its five trades
 
-### La tabla actuarial, no el pronóstico del tiempo
+**Translates:** the five functions of a viable system (S1–S5).
 
-**Traduce:** el alcance real del modelo climático — da tasas base, no predice eventos.
+**The story.** Picture a workshop that survives for decades. There are five trades, and not one is
+spare. **The hands** (S1) do the work: cut, weld, assemble. **The shared reflexes** (S2) keep two
+hands from reaching for the same tool at once — they don't command, they just prevent the collision.
+**The floor manager** (S3) allocates what there is: who uses what, how much, when. **The surprise
+inspector** (S3\*) shows up unannounced and looks at what the reports don't show. **The lookout on
+the roof** (S4) doesn't watch the workshop: it watches the horizon, the street, the weather, what's
+coming. And **the constitution** (S5) sets the limits no one — not even the manager — can override.
+A living workshop has all five. Take away the lookout and it survives until the first surprise; take
+away the constitution and the strongest hand eats the rest.
 
-**La historia.** La tabla de un actuario de seguros te dice que una persona de 60 años tiene,
-digamos, 2% de probabilidad de tal cosa este año. Es verdad, es útil, y no sabe *nada* de ti: ni
-tu nombre, ni tu martes que viene. Da tasas históricas, no predicciones de eventos. Nuestro modelo
-climático es exactamente eso: te dice a qué ritmo histórico una zona se desvía hacia el estrés. No
-sabe que viene un río atmosférico la próxima semana. Pídele que pronostique la tormenta y te
-entregará el promedio del siglo, tan tranquilo.
+**Where it breaks.** In a real workshop the trades blend: the same person sometimes cuts and
+sometimes allocates. In a body, worse: there's no "floor manager" you can point to. The separation is
+a lens for *diagnosis*, not a blueprint of the insides. And there's a difference the workshop doesn't
+capture: here each hand can itself be a complete workshop with its own five trades (see *the Russian
+dolls*).
 
-**Dónde se rompe.** Esta metáfora *es* el punto de quiebre del campesino: aquí es donde "leer el
-horizonte" se acaba. Y se rompe aún más si la empujas: pasado un día, nuestra tabla se olvida de
-dónde partiste y solo repite la tasa base (~20% desde cualquier estado). Es una tabla actuarial con
-un día de memoria. Sirve para entender el *régimen* de una zona, jamás para saber si lloverá el
-jueves — para eso, un modelo meteorológico, no éste.
-
-**En el sistema:** cadena de Markov de 5 bins por percentil; climatología ERA5 1991–2020; bloques
-de aviso en `scripts/reportes/reporte_clima_*.py`.
-
-### El mapa no es el territorio
-
-**Traduce:** la regla "modelo ≡ realidad" — y por qué es una disciplina, no una omnisciencia.
-
-**La historia.** Un mapa es útil *precisamente* porque deja cosas afuera. Pero un mapa que se cree
-el territorio es peligroso: manejarás directo al lago que simplificó. Nuestra regla "modelo ≡
-realidad" es una disciplina para mantener el mapa honesto — cada servicio que el mapa declara tiene
-que existir de verdad, y un censo lo verifica— no una afirmación de que el mapa *es* el mundo.
-
-**Dónde se rompe.** Un mapa perfectamente reconciliado sigue siendo un mapa: puede ser verdadero
-sobre lo que muestra y mudo sobre lo que nunca relevó. La reconciliación te compra "sin mentiras",
-no "sin huecos". Lo no instrumentado no aparece — y no aparecer no es lo mismo que no existir.
-
-**En el sistema:** `model≡reality`; `topology_reconcile`; el censo anti-huérfanos (S3\*).
+**In the system:** S1–S5 in `viability.yaml`; `docs/concepts.md`; the Cybersyn pattern.
 
 ---
 
-## Parte IV — Cómo se gobierna
+## Part II — What it *does*
 
-### El termostato que nadie puede saltarse
+### The farmer who waters before the drought
 
-**Traduce:** S5, la política — no hace el trabajo, fija la banda que el trabajo debe respetar.
+**Translates:** anticipation — S4's projection that acts *before* the excursion.
 
-**La historia.** Un termostato no calienta la pieza. Decide la *banda* en la que la pieza debe
-quedarse, y nada dentro de la pieza tiene voto. S5 es el termostato del sistema: no ejecuta, fija
-los límites que la ejecución no puede cruzar. Su poder no es la acción — es la última palabra sobre
-los bordes.
+**The story.** Two farmers, the same field, the same water. The first waters when the plant is
+already wilting: he reacts to the damage. The second reads the sky and the soil and waters the day
+*before* the heat arrives. He didn't use more water — he used the same water, moved one day earlier,
+guided by a reading of the horizon. His plant never wilts. That's all anticipation is: not more
+resources, the same resources moved in time, because someone looked ahead.
 
-**Dónde se rompe.** Un termostato mal puesto es una tiranía silenciosa: la pieza obedece un número
-equivocado sin quejarse. Por eso quien fija la banda tiene que estar, a su vez, atado (ver *la regla
-que ata al que hace las reglas*). Una banda que nadie puede saltarse solo es segura si cambiarla es
-difícil y visible.
+**Where it breaks.** Reading the sky only works as far ahead as the weather is legible. Read too far
+and the farmer isn't anticipating anymore: he's guessing the season's average — which is our exact
+limit. Our "sky" is legible for about a day; beyond that, the projection converges to the base rate
+(see *the actuarial table*). And one more honesty: for now our farmer waters in a trial — the
+reallocation is validated but *simulated*, not yet actuated on real soil.
 
-**En el sistema:** política S5; región viable Ω; piso del covenant.
+**In the system:** S4 Markov projection → anticipatory reallocation; EXP-S4-01 (all four hypotheses
+pass in one config; ~14% effect, 1-day lead); `docs/theory/anticipatory_prevention.vsm`.
 
-### La regla que ata también al que hace las reglas
+### The price of staying yourself
 
-**Traduce:** A5, el techo de autonomía y el covenant — el sistema no puede votarse más poder.
+**Translates:** epistemic viability — the continuous cost of holding coherence.
 
-**La historia.** La constitución más fuerte es la que ata a su propio autor — donde ni el rey puede,
-por decreto, eximirse a sí mismo. En nuestro sistema la regla más profunda es que las correcciones
-grandes —cambiar la banda misma, el "doble lazo"— siempre requieren que un humano diga que sí. El
-sistema no puede votarse más autonomía. Puede proponerla; no puede tomársela.
+**The story.** A body at rest looks like it's doing nothing. But it is paying, every second, to keep
+its temperature and chemistry inside the narrow band where life is possible. Staying yourself is not
+free: it's a bill paid without pause against the current that pulls toward dissolution. A system that
+stops paying doesn't stay still — it comes apart. Existing already costs; *knowing* costs on top.
 
-**Dónde se rompe.** Una regla vale solo lo que vale su cumplimiento: un covenant que el que ejecuta
-puede editar en silencio es una sugerencia. El nuestro es determinista y auditado (S3\*)
-precisamente para que atar no dependa de las buenas intenciones. Y un matiz que la metáfora del rey
-esconde: este techo es una *elección*, no una ley natural. Lo pusimos bajo a propósito — porque un
-techo que el sistema escogió puede, en principio, volver a escoger, y por eso el candado está
-afuera (ver el CA offline).
+**Where it breaks.** The "two prices" — of existing and of knowing — are sharper in the metaphor than
+in the math, where they tangle. And there's an asymmetry the body doesn't show: a body's band is set
+by biology, and it isn't wrong; ours is set by a policy (see *the thermostat*), and it can be. Our
+band is a decision, not a law of nature.
 
-**En el sistema:** techo de autonomía A5; D4 lazo simple/doble; el covenant; CA S5 offline.
+**In the system:** the *epistemic_viability* paper; the viable region Ω; `stasis_cos`.
 
-### El inspector que llega sin avisar
+### The hand that pulls back before the brain decides
 
-**Traduce:** S3\* — el audit esporádico que ve lo que los informes de S3 no muestran.
+**Translates:** the algedonic signal — the pain/pleasure channel that bypasses the slow layer.
 
-**La historia.** El jefe de piso (S3) ve los informes que las unidades *eligen* mandar. El inspector
-sorpresa (S3\*) entra sin avisar y mira lo que los informes no muestran — el cajón que nadie
-mencionó. No porque las unidades mientan, sino porque todo canal de reporte tiene un punto ciego, y
-la única cura para un punto ciego es una mirada desde el ángulo que ese canal no cubre.
+**The story.** You touch a hot pot and your hand pulls back *before* you've thought the word "hot".
+The signal doesn't wait for deliberation: it has its own wire, fast, straight to action. A viable
+system needs that wire — an alarm channel that skips the thinking layer when something is urgent,
+because thinking takes time and sometimes time is exactly what there isn't.
 
-**Dónde se rompe.** El inspector es esporádico por diseño. Vuélvelo constante y se convierte en otro
-canal de reporte más, con su propio punto ciego — y de paso estrangula el trabajo que audita. Su
-valor está en la sorpresa y en el ángulo distinto, no en la cobertura total. Un inspector que mira
-todo, todo el tiempo, ya no es un inspector: es la burocracia que vino a evitar.
+**Where it breaks.** A reflex is dumb by design — it can pull the hand from a warmth it mistook for
+fire. So the reflex can never be the only judge: the slow layer reviews afterward. In our system the
+reflex path is *deterministic* and forbidden from using the language model (rule R10), precisely
+because a "smart" reflex is a slow reflex, and a slow reflex is no reflex.
 
-**En el sistema:** audit S3\*; reconciliación anti-huérfanos; `vsf-s3-star`.
+**In the system:** the algedonic channel; rules R10/R10.1; `vsf-s5-algedonic`.
+
+### The goalkeeper and requisite variety
+
+**Translates:** Ashby's Law — to regulate something you need at least as much variety as it throws at you.
+
+**The story.** A goalkeeper can only stop as many *kinds* of shot as they have kinds of save. Put them
+against a striker with more tricks than the keeper has saves, and they'll be beaten — not by bad luck,
+by arithmetic. To control something you need at least as much variety as that something throws at you.
+It's not a slogan: it's a law, as hard as the law of the lever.
+
+**Where it breaks.** The metaphor suggests the only way out is to *grow* your variety until it matches
+the world's. False, and dangerous: sometimes the honest move is to *reduce* the world's variety —
+shrink the goal, add a filter, coordinate so not every shot arrives at once — instead of pretending
+you can save everything. The law says you need the variety; it doesn't say you must get it by growing.
+That's what S2 and filters do.
+
+**In the system:** Cyberfilter/S3, S2 coordination; Ashby as the foundation of variety.
 
 ---
 
-## Parte V — La forma del todo
+## Part III — What it *doesn't* do
 
-### Las muñecas rusas
+*(The most important part for trust. A system that only advertises what it does is a salesman; one
+that advertises, with equal care, what it doesn't do is a partner.)*
 
-**Traduce:** la recursión — cualquier unidad que hace trabajo puede ser, ella misma, un sistema completo.
+### The actuarial table, not the weather forecast
 
-**La historia.** Abres una muñeca rusa y adentro hay una muñeca *entera* — no un pedazo de una,
-una completa. La abres y hay otra. Nuestro sistema está construido así: cualquier unidad que hace
-trabajo (un S1) puede ser, por dentro, un sistema completo con sus propios cinco oficios. Son
-muñecas hasta el fondo, y cada muñeca está entera.
+**Translates:** the real scope of the climate model — it gives base rates, it doesn't predict events.
 
-**Dónde se rompe.** Las muñecas de verdad son idénticas y se acaban. Las nuestras difieren en cada
-nivel y tienen que *ganarse* su completitud: una unidad cuenta como recursiva solo si pasa una
-certificación, no por declararlo. Y el anidamiento toca fondo — en algún piso hay una mano real
-haciendo trabajo real, no otra muñeca. La recursión es una estructura, no una excusa para nunca
-llegar al suelo.
+**The story.** An insurance actuary's table tells you a 60-year-old has, say, a 2% chance of
+such-and-such this year. It's true, it's useful, and it knows *nothing* about you: not your name, not
+your coming Tuesday. It gives historical rates, not predictions of events. Our climate model is
+exactly that: it tells you the historical rate at which a zone drifts toward stress. It doesn't know
+an atmospheric river is coming next week. Ask it to forecast the storm and it will hand you the
+century's average, unbothered.
 
-**En el sistema:** `recursive: true` + `vsf_ref`; DSN-EVC-01 (certificador embebido);
+**Where it breaks.** This metaphor *is* the farmer's breaking-point: here is where "reading the
+horizon" ends. And it breaks further if you push it: past one day, our table forgets where you started
+and just repeats the base rate (~20% from any state). It's an actuarial table with a one-day memory.
+Good for understanding a zone's *regime*, never for whether it'll rain on Thursday — for that, a
+weather model, not this one.
+
+**In the system:** the 5-bin percentile Markov chain; the ERA5 climatology (1991–2020); the warning
+blocks in `scripts/reportes/reporte_clima_*.py`.
+
+### The map is not the territory
+
+**Translates:** the "model ≡ reality" rule — and why it's a discipline, not omniscience.
+
+**The story.** A map is useful *precisely* because it leaves things out. But a map that believes it's
+the territory is dangerous: you'll drive straight into the lake it simplified away. Our "model ≡
+reality" rule is a discipline to keep the map honest — every service the map declares must really
+exist, and a census verifies it — not a claim that the map *is* the world.
+
+**Where it breaks.** A perfectly reconciled map is still a map: it can be true about what it shows and
+silent about what it never surveyed. Reconciliation buys you "no lies", not "no gaps". The
+un-instrumented doesn't appear — and not appearing is not the same as not existing.
+
+**In the system:** `model≡reality`; `topology_reconcile`; the anti-orphan census (S3\*).
+
+---
+
+## Part IV — How it's governed
+
+### The thermostat nobody can override
+
+**Translates:** S5, policy — it doesn't do the work, it sets the band the work must respect.
+
+**The story.** A thermostat doesn't heat the room. It decides the *band* the room must stay in, and
+nothing in the room gets a vote. S5 is the system's thermostat: it doesn't execute, it sets the limits
+execution can't cross. Its power isn't action — it's the last word on the edges.
+
+**Where it breaks.** A badly-set thermostat is a silent tyranny: the room obeys a wrong number without
+complaint. So whoever sets the band must, in turn, be bound (see *the rule that binds the rule-maker*).
+A band nobody can override is only safe if changing it is hard and visible.
+
+**In the system:** S5 policy; the viable region Ω; the covenant floor.
+
+### The rule that binds the rule-maker too
+
+**Translates:** A5, the autonomy ceiling and the covenant — the system can't vote itself more power.
+
+**The story.** The strongest constitution is the one that binds its own author — where not even the
+king can, by decree, exempt himself. In our system the deepest rule is that the big corrections —
+changing the band itself, the "double loop" — always require a human to say yes. The system can't vote
+itself more autonomy. It can propose it; it can't take it.
+
+**Where it breaks.** A rule is worth only what its enforcement is worth: a covenant the executor can
+quietly edit is a suggestion. Ours is deterministic and audited (S3\*) precisely so that the binding
+doesn't depend on good intentions. And a nuance the king-metaphor hides: this ceiling is a *choice*,
+not a natural law. We set it low on purpose — because a ceiling the system chose could, in principle,
+be chosen again, which is why the lock is kept *outside* (see the offline CA).
+
+**In the system:** the A5 autonomy ceiling; D4 single/double loop; the covenant; the offline S5 CA.
+
+### The inspector who arrives unannounced
+
+**Translates:** S3\* — the sporadic audit that sees what S3's reports don't show.
+
+**The story.** The floor manager (S3) sees the reports the units *choose* to send. The surprise
+inspector (S3\*) walks in unannounced and looks at what the reports don't show — the drawer nobody
+mentioned. Not because the units lie, but because every reporting channel has a blind spot, and the
+only cure for a blind spot is a look from the angle that channel doesn't cover.
+
+**Where it breaks.** The inspector is sporadic by design. Make them constant and they become just
+another reporting channel, with their own blind spot — and they strangle the work they audit along the
+way. Their value is in the surprise and the different angle, not in total coverage. An inspector who
+watches everything, all the time, is no longer an inspector: they're the bureaucracy they came to
+prevent.
+
+**In the system:** the S3\* audit; anti-orphan reconciliation; `vsf-s3-star`.
+
+---
+
+## Part V — The shape of the whole
+
+### The Russian dolls
+
+**Translates:** recursion — any unit that does work can itself be a complete system.
+
+**The story.** You open a Russian doll and inside is a *whole* doll — not a piece of one, a complete
+one. You open that and there's another. Our system is built this way: any unit that does work (an S1)
+can, on the inside, be a complete system with its own five trades. It's dolls all the way down, and
+each doll is whole.
+
+**Where it breaks.** Real dolls are identical and they run out. Ours differ at each level and have to
+*earn* their completeness: a unit counts as recursive only if it passes a certification, not by
+declaring it. And the nesting bottoms out — at some floor there's a real hand doing real work, not
+another doll. Recursion is a structure, not an excuse never to reach the ground.
+
+**In the system:** `recursive: true` + `vsf_ref`; DSN-EVC-01 (the embedded certifier);
 `docs/recursive_vsm_theory.md`.
 
 ---
 
 ## Coda
 
-La disciplina de este repositorio es la del sistema entero, en miniatura: decir lo útil y, en la
-misma respiración, decir exactamente dónde deja de ser cierto. El +0.9 que cerró este ciclo se ganó
-cortando en ambos sentidos — negado cuando no correspondía, acreditado cuando la evidencia lo
-sostuvo. Cada metáfora de acá se sostiene igual: no por lo que ilumina, sino por lo honesta que es
-respecto de su propia sombra.
+The discipline of this repository is the whole system's, in miniature: say the useful thing and, in
+the same breath, say exactly where it stops being true. The +0.9 that closed this cycle was earned by
+cutting both ways — refused when it wasn't warranted, credited when the evidence held. Every metaphor
+here stands the same way: not by what it illuminates, but by how honest it is about its own shadow.
 
-Una metáfora que no conoce su sombra no es un puente. Es una trampa con vista bonita.
+A metaphor that doesn't know its shadow isn't a bridge. It's a trap with a nice view.
