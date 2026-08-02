@@ -133,6 +133,16 @@ CONDITIONS
   Each instance is a latent node. You may not modify the beacon to report
   false Covenant hashes.
 
+**Bring-Your-Own-Model (BYO)**
+
+  This license governs the VSF/vOS source code only. It does not distribute,
+  sublicense, or grant any rights regarding third-party AI/language models
+  (e.g. DeepSeek, GLM, Qwen, or any other LLM/SLM) that an operator chooses
+  to connect to this software. No model weights are distributed as part of
+  this Program. Compliance with the license terms, usage restrictions, and
+  output policies of any third-party model an operator selects is solely
+  that operator's responsibility.
+
 
 RESTRICTIONS
 ------------
@@ -190,6 +200,21 @@ no single person should carry the weight of a system designed to distribute it.
 The Covenant and attribution requirements survive any future license change.
 
 
+DOCUMENTATION LICENSE
+----------------------
+
+Documentation (the docs/ directory — papers, theory, glossary, guides) is
+licensed separately and more permissively than the kernel: Creative Commons
+Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) —
+https://creativecommons.org/licenses/by-sa/4.0/
+
+You are free to share and adapt the documentation, including translation,
+provided you give appropriate credit to the original authors and distribute
+your contributions under the same license. This applies to docs/ only —
+the RESTRICTIONS above (commercial implementation, mission-critical use)
+govern the kernel and are unaffected by this clause.
+
+
 DISCLAIMER
 ----------
 
@@ -204,20 +229,8 @@ explicit scope limitations.
 
 
 ---
-VSF Kernel License 1.0 — issued 2026-05-01
+VSF Kernel License 1.0 — issued 2026-05-01, BYO + docs clauses added 2026-08-02
 Author: Luis Pineda R. (rmw3kufe@proton.me)
 Covenant SHA-256: dde12ead57a01d1c039da7193b2e007e02a8709bf8699d46cbe69e16e95a5642
 
-╔═══════════════════════════════════════════════════════╗
-║                                                       ║
-║  Crafted with cybernetic artisanship at Sitio Eriazo  ║
-║  Elaborado con artesanía cibernética en Sitio Eriazo  ║
-║                                                       ║
-║                        /\/\/\                         ║
-║                       ≈≈≈≈≈≈≈≈                        ║
-║                    ⟦ VSF ✸ 2026 ⟧                     ║
-║                  Valparaíso ≈ CHILE                   ║
-║                                                       ║
-║          Luis Pineda R. — rmw3kufe@proton.me          ║
-║                                                       ║
-╚═══════════════════════════════════════════════════════╝
+⟦ VSF-KERNEL-LICENSE | rmw3 | vsm-1.0 | vsf.u2738.org ⟧
